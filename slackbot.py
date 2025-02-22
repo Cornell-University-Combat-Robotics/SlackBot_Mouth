@@ -1,5 +1,6 @@
 import logging
 import os
+import slack
 from pathlib import Path
 from dotenv import load_dotenv
 from slack_sdk import WebClient
@@ -12,7 +13,7 @@ class SlackBot:
         self.logger = logging.getLogger(__name__)
 
         # ID of channel you want to post message to
-        self.channel_id = find_id("bot-testing-2-electric-boogaloo")
+        self.channel_id = SlackBot.find_id(self, name="bot-testing-2-electric-boogaloo")
 
     def find_id(self, name):
         channel_name = name
