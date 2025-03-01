@@ -1,0 +1,11 @@
+{'user': 'U047QD6FGD9', 'type': 'message', 'ts': '1740860561.162539', 'client_msg_id': 'bd485468-2d84-484a-94cc-867048f35e35', 'text': 'jhiehi ie', 'team': 'TP4D7HQB0', 'blocks': [
+    {'type': 'rich_text', 'block_id': 'TmoXd', 'elements': [
+        {'type': 'rich_text_section', 'elements': [
+            {'type': 'text', 'text': 'jhiehi ie'
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

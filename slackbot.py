@@ -16,33 +16,35 @@ class SlackBot:
         self.channel_id = SlackBot.find_id(self, name="bot-testing-2-electric-boogaloo")
 
     def find_id(self, name):
-        channel_name = name
-        conversation_id = None
+        """Find Slack channel ID by name."""
         try:
-            # Call the conversations.list method using the WebClient
-            for result in self.client.conversations_list():
-                if conversation_id is not None:
-                    break
-                for channel in result["channels"]:
-                    if channel["name"] == channel_name:
-                        conversation_id = channel["id"]
-                        #Print result
-                        print(f"Found conversation ID: {conversation_id}")
-                        break
-
+            response = self.client.conversations_list()
+            for channel in response["channels"]:
+                if channel["name"] == name:
+                    print(f"Found conversation ID: {channel['id']}")
+                    return channel["id"]
+            print("Channel not found!")
+            return None
         except SlackApiError as e:
-            print(f"Error: {e}")
+            print(f"Error retrieving channels: {e}")
+            return None
 
-    def send_message(self):
+    def send_message(self, text="Hello World!"):
+        """Send a message to a Slack channel."""
+        if not self.channel_id:
+            print("Error: Channel ID not found. Cannot send message.")
+            return 
         try:
-            # Call the conversations.list method using the WebClient
             result = self.client.chat_postMessage(
                 channel=self.channel_id,
-                text="Hello world!"
-                # You could also use a blocks[] array to send richer content
+                text=text
             )
-            # Print result, which includes information about the message (like TS)
-            print(result)
+            print("Message sent successfully:", result)
 
         except SlackApiError as e:
-            print(f"Error: {e}")
+            print(f"Error sending message: {e}")
+
+    def retrieve_last_message(self):
+        result = self.client.conversations_history(channel=self.channel_id)
+        last_message = result["messages"][0]["text"]
+        return last_message
